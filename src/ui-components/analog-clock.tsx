@@ -1,5 +1,6 @@
 import {MutableRefObject, useEffect, useRef, useState} from "react";
-import {ClockMode, draw, TimeFormat} from "../clock-utils";
+import { draw } from "../utils/clock-utils";
+import {ClockMode, TimeFormat} from "../utils/types";
 import './analog-clock.css';
 
 export interface AnalogClockProps {

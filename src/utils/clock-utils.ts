@@ -5,7 +5,6 @@ export const draw = (ctx: CanvasRenderingContext2D, radius: number, draw24hour: 
     }
 }
 
-
 export const drawFace = (ctx: CanvasRenderingContext2D, radius: number) => {
     ctx.beginPath();
     ctx.arc(0,0, radius, 0, 2 * Math.PI);
@@ -125,15 +124,4 @@ export const drawClock = (ctx: CanvasRenderingContext2D, radius: number, draw24h
     drawFace(ctx, radius);
     drawNumbers(ctx, radius, draw24hour);
     drawTicks(ctx, radius);
-}
-
-export enum TimeFormat {
-    Mode24Hour = 'mode24Hour',
-    Mode12Hour = 'mode12Hour'
-}
-
-export enum ClockMode {
-    Live,
-    Static,
-    NoHands
 }
