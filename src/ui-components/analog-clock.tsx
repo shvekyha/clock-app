@@ -1,5 +1,5 @@
 import {MutableRefObject, useEffect, useRef, useState} from "react";
-import { draw } from "../utils/clock-utils";
+import { draw, tick } from "../utils/clock-utils";
 import {ClockMode, TimeFormat} from "../utils/types";
 import './analog-clock.css';
 
@@ -19,27 +19,6 @@ export const AnalogClock = (props: AnalogClockProps) => {
 
     const { size, timeFormat = TimeFormat.Mode24Hour, clockMode = ClockMode.Live } = props;
 
-    const tick = (ctx: CanvasRenderingContext2D) => {
-        const time = new Date();
-        draw(ctx, radius, draw24hour, time);
-    }
-
-    useEffect( ()=> {
-        if (drawingContext) {
-            if (clockMode === ClockMode.Live) {
-                const timerId = setInterval(() => tick(drawingContext), 1000);
-                return () => {
-                    clearInterval(timerId);
-                }
-            } else if (clockMode === ClockMode.Static){
-                const time = new Date("2021/01/01 10:10:30");
-                draw(drawingContext, radius, draw24hour, time);
-            } else {
-                draw(drawingContext, radius, draw24hour);
-            }
-        }
-    }, [drawingContext, radius, draw24hour, clockMode, tick]);
-
     useEffect(() => {
         const radius = size / 2
         const drawingContext : CanvasRenderingContext2D = clockCanvas.current.getContext('2d');
@@ -50,6 +29,22 @@ export const AnalogClock = (props: AnalogClockProps) => {
         setDrawingContext(drawingContext);
 
     },[size, timeFormat]);
+
+    useEffect( ()=> {
+        if (drawingContext) {
+            if (clockMode === ClockMode.Live) {
+                const timerId = setInterval(() => tick(drawingContext, radius, draw24hour), 1000);
+                return () => {
+                    clearInterval(timerId);
+                }
+            } else if (clockMode === ClockMode.Static){
+                const time = new Date("2021/01/01 10:10:30");
+                draw(drawingContext, radius, draw24hour, time);
+            } else {
+                draw(drawingContext, radius, draw24hour);
+            }
+        }
+    }, [drawingContext, radius, draw24hour, clockMode]);
 
     return (
         <div className="analog-clock" style={{ width: `${size}px` }}>

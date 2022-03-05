@@ -5,7 +5,12 @@ export const draw = (ctx: CanvasRenderingContext2D, radius: number, draw24hour: 
     }
 }
 
-export const drawFace = (ctx: CanvasRenderingContext2D, radius: number) => {
+export const tick = (ctx: CanvasRenderingContext2D, radius: number, draw24hour: boolean) => {
+    const time = new Date();
+    draw(ctx, radius, draw24hour, time);
+}
+
+const drawFace = (ctx: CanvasRenderingContext2D, radius: number) => {
     ctx.beginPath();
     ctx.arc(0,0, radius, 0, 2 * Math.PI);
     ctx.fillStyle = "white";
@@ -25,7 +30,7 @@ export const drawFace = (ctx: CanvasRenderingContext2D, radius: number) => {
     ctx.fill();
 }
 
-export const drawNumbers = (ctx: CanvasRenderingContext2D, radius: number, draw24hour: boolean) => {
+const drawNumbers = (ctx: CanvasRenderingContext2D, radius: number, draw24hour: boolean) => {
     const fontBig = radius * 0.15 + "px Arial";
     const fontSmall = radius * 0.075 + "px Arial";
     let ang, num;
@@ -65,7 +70,7 @@ export const drawNumbers = (ctx: CanvasRenderingContext2D, radius: number, draw2
     ctx.translate(0, -radius * 0.30);
 }
 
-export const drawTicks = (ctx: CanvasRenderingContext2D, radius: number) => {
+const drawTicks = (ctx: CanvasRenderingContext2D, radius: number) => {
     let numTicks, tickAng, tickX, tickY;
 
     for (numTicks = 0; numTicks < 60; numTicks++) {
@@ -86,7 +91,7 @@ export const drawTicks = (ctx: CanvasRenderingContext2D, radius: number) => {
     }
 }
 
-export const drawTime = (ctx: CanvasRenderingContext2D, radius: number, time: Date, drawSeconds: boolean) => {
+const drawTime = (ctx: CanvasRenderingContext2D, radius: number, time: Date, drawSeconds: boolean) => {
     const now = time;
     let hour = now.getHours();
     let minute = now.getMinutes();
@@ -106,7 +111,7 @@ export const drawTime = (ctx: CanvasRenderingContext2D, radius: number, time: Da
     }
 }
 
-export const drawHand = (ctx: CanvasRenderingContext2D, position: number, length: number, width:number, color?:string) => {
+const drawHand = (ctx: CanvasRenderingContext2D, position: number, length: number, width:number, color?:string) => {
     color = color || "black";
     ctx.beginPath();
     ctx.lineWidth = width;
@@ -120,7 +125,7 @@ export const drawHand = (ctx: CanvasRenderingContext2D, position: number, length
     ctx.rotate(-position);
 }
 
-export const drawClock = (ctx: CanvasRenderingContext2D, radius: number, draw24hour: boolean) => {
+const drawClock = (ctx: CanvasRenderingContext2D, radius: number, draw24hour: boolean) => {
     drawFace(ctx, radius);
     drawNumbers(ctx, radius, draw24hour);
     drawTicks(ctx, radius);
