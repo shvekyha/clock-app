@@ -4,9 +4,10 @@ import {ClockMode, TimeFormat} from "../utils/types";
 import './analog-clock.css';
 
 export interface AnalogClockProps {
-    size: number,
+    size?: number,
     timeFormat?: TimeFormat,
-    clockMode?: ClockMode
+    clockMode?: ClockMode,
+    missingNumbers?: number[]
 }
 
 export const AnalogClock = (props: AnalogClockProps) => {
@@ -17,7 +18,7 @@ export const AnalogClock = (props: AnalogClockProps) => {
 
     const clockCanvas : MutableRefObject<any> = useRef();
 
-    const { size, timeFormat = TimeFormat.Mode24Hour, clockMode = ClockMode.Live } = props;
+    const { size = 400, timeFormat = TimeFormat.Mode12Hour, clockMode = ClockMode.Static, missingNumbers } = props;
 
     useEffect(() => {
         const radius = size / 2
@@ -38,8 +39,8 @@ export const AnalogClock = (props: AnalogClockProps) => {
                     clearInterval(timerId);
                 }
             } else if (clockMode === ClockMode.Static){
-                const time = new Date("2021/01/01 10:10:30");
-                draw(drawingContext, radius, draw24hour, time);
+                const time = new Date("2021/01/01 10:12:33");
+                draw(drawingContext, radius, draw24hour, time, missingNumbers);
             } else {
                 draw(drawingContext, radius, draw24hour);
             }

@@ -1,5 +1,5 @@
-export const draw = (ctx: CanvasRenderingContext2D, radius: number, draw24hour: boolean, time?: Date) => {
-    drawClock(ctx, radius, draw24hour);
+export const draw = (ctx: CanvasRenderingContext2D, radius: number, draw24hour: boolean, time?: Date, missingNumbers?: number[]) => {
+    drawClock(ctx, radius, draw24hour, missingNumbers);
     if (time) {
         drawTime(ctx, radius, time, true);
     }
@@ -30,10 +30,16 @@ const drawFace = (ctx: CanvasRenderingContext2D, radius: number) => {
     ctx.fill();
 }
 
-const drawNumbers = (ctx: CanvasRenderingContext2D, radius: number, draw24hour: boolean) => {
+const drawNumbers = (
+    ctx: CanvasRenderingContext2D, 
+    radius: number, 
+    draw24hour: boolean, 
+    missingNumbers?: number[]
+) => {
     const fontBig = radius * 0.15 + "px Arial";
     const fontSmall = radius * 0.075 + "px Arial";
-    let ang, num;
+    let ang: any;
+    let num: number;
 
     ctx.textBaseline = "middle";
     ctx.textAlign = "center";
@@ -44,7 +50,9 @@ const drawNumbers = (ctx: CanvasRenderingContext2D, radius: number, draw24hour: 
         ctx.rotate(-ang);
         ctx.font = fontBig;
         ctx.fillStyle = "black";
-        ctx.fillText(num.toString(), 0, 0);
+        if (!missingNumbers?.find(item => item === num)){
+            ctx.fillText(num.toString(), 0, 0);
+        }
         ctx.rotate(ang);
         ctx.translate(0, radius * 0.78);
         ctx.rotate(-ang);
@@ -125,8 +133,8 @@ const drawHand = (ctx: CanvasRenderingContext2D, position: number, length: numbe
     ctx.rotate(-position);
 }
 
-const drawClock = (ctx: CanvasRenderingContext2D, radius: number, draw24hour: boolean) => {
+const drawClock = (ctx: CanvasRenderingContext2D, radius: number, draw24hour: boolean, missingNumbers?: number[]) => {
     drawFace(ctx, radius);
-    drawNumbers(ctx, radius, draw24hour);
+    drawNumbers(ctx, radius, draw24hour, missingNumbers);
     drawTicks(ctx, radius);
 }
