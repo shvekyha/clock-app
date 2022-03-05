@@ -1,0 +1,12 @@
+.App {
+  text-align: center;
+  display:flex;
+  justify-content: space-evenly;
+}
+
+.AnalogClock {
+  padding: 5px;
+  margin-top: 15px;
+  margin-left: auto;
+  margin-right: auto;
+}
