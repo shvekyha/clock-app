@@ -1,5 +1,6 @@
 import {MutableRefObject, useEffect, useRef, useState} from "react";
-import {ClockMode, draw, TimeFormat} from "./clock-utils";
+import {ClockMode, draw, TimeFormat} from "../clock-utils";
+import './analog-clock.css';
 
 export interface AnalogClockProps {
     size: number,
@@ -50,7 +51,7 @@ export const AnalogClock = (props: AnalogClockProps) => {
     },[size, timeFormat]);
 
     return (
-        <div className="AnalogClock" style={{ width: `${size}px` }}>
+        <div className="analog-clock" style={{ width: `${size}px` }}>
             <canvas width={size} height={size} ref={clockCanvas}/>
         </div>
     );

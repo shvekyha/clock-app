@@ -1,6 +1,6 @@
 
 import './App.css';
-import { AnalogClock } from "./AnalogClock";
+import { AnalogClock } from "./ui-components/analog-clock";
 import {TimeFormat, ClockMode} from "./clock-utils";
 
 function App() {
