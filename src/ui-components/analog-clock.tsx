@@ -16,18 +16,19 @@ export const AnalogClock = (props: AnalogClockProps) => {
     const [ drawingContext, setDrawingContext] = useState<CanvasRenderingContext2D>();
     const [ draw24hour, setDraw24hour] = useState(false);
 
-    const clockCanvas : MutableRefObject<any> = useRef();
+    const clockCanvasRef : MutableRefObject<any> = useRef();
 
     const { size = 400, timeFormat = TimeFormat.Mode12Hour, clockMode = ClockMode.Static, missingNumbers } = props;
 
     useEffect(() => {
         const radius = size / 2
-        const drawingContext : CanvasRenderingContext2D = clockCanvas.current.getContext('2d');
+        drawingContext?.clearRect(0,0,radius, radius);
+        const context : CanvasRenderingContext2D = clockCanvasRef.current.getContext('2d');
         const draw24hour = timeFormat === TimeFormat.Mode24Hour;
-        drawingContext.translate(radius, radius);
+        context.translate(radius, radius);
         setRadius(radius * 0.9);
         setDraw24hour(draw24hour);
-        setDrawingContext(drawingContext);
+        setDrawingContext(context);
 
     },[size, timeFormat]);
 
@@ -49,7 +50,7 @@ export const AnalogClock = (props: AnalogClockProps) => {
 
     return (
         <div className="analog-clock" style={{ width: `${size}px` }}>
-            <canvas width={size} height={size} ref={clockCanvas}/>
+            <canvas width={size} height={size} ref={clockCanvasRef}/>
         </div>
     );
 }
